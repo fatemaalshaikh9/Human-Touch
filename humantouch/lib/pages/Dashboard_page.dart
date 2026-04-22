@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import 'Reminders_page.dart';
 import 'Health_page.dart';
 import 'Communication_page.dart';
@@ -9,9 +11,43 @@ import 'VolunteerHelp_page.dart';
 import 'Profile_page.dart';
 import 'Settings_page.dart';
 import 'reminder_store.dart';
+import 'zego_call_service.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
+
+  @override
+  State<DashboardPage> createState() => _DashboardPageState();
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  bool _zegoInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initZegoCallService();
+  }
+
+  Future<void> _initZegoCallService() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null || _zegoInitialized || !mounted) return;
+
+    await ZegoCallService.instance.init(
+      context: context,
+      userID: user.uid,
+      userName:
+          (user.displayName != null && user.displayName!.trim().isNotEmpty)
+          ? user.displayName!
+          : (user.email ?? 'User'),
+    );
+
+    if (!mounted) return;
+
+    setState(() {
+      _zegoInitialized = true;
+    });
+  }
 
   String _getTodayName() {
     return DateFormat('EEEE', 'en').format(DateTime.now());
