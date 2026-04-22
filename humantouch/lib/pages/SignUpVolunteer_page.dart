@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'location_picker_page.dart';
 import 'Dashboard_page.dart';
 import 'Login_page.dart';
@@ -35,9 +38,11 @@ class _SignUpVolunteerPageState extends State<SignUpVolunteerPage> {
   bool _isLoading = false;
 
   String? _selectedGender;
-
   double? _selectedLatitude;
   double? _selectedLongitude;
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   @override
   void dispose() {
@@ -143,10 +148,28 @@ class _SignUpVolunteerPageState extends State<SignUpVolunteerPage> {
     if (result != null && result is Map<String, dynamic>) {
       setState(() {
         _locationController.text = result['address'] ?? '';
-        _selectedLatitude = result['latitude'];
-        _selectedLongitude = result['longitude'];
+        _selectedLatitude = result['latitude'] as double?;
+        _selectedLongitude = result['longitude'] as double?;
       });
     }
+  }
+
+  Future<void> _saveVolunteerToFirestore({required User user}) async {
+    await _firestore.collection('volunteers').doc(user.uid).set({
+      'uid': user.uid,
+      'name': _nameController.text.trim(),
+      'email': _emailController.text.trim(),
+      'phone': _phoneController.text.trim(),
+      'gender': _selectedGender,
+      'helpType': _assistanceController.text.trim(),
+      'location': _locationController.text.trim(),
+      'latitude': _selectedLatitude,
+      'longitude': _selectedLongitude,
+      'isAvailable': true,
+      'role': 'volunteer',
+      'rating': 0,
+      'createdAt': FieldValue.serverTimestamp(),
+    });
   }
 
   Future<void> _handleSignUp() async {
@@ -176,18 +199,66 @@ class _SignUpVolunteerPageState extends State<SignUpVolunteerPage> {
       _isLoading = true;
     });
 
-    await Future.delayed(const Duration(milliseconds: 700));
+    try {
+      final UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(
+            email: _emailController.text.trim(),
+            password: _passwordController.text,
+          );
 
-    if (!mounted) return;
+      final User? user = userCredential.user;
 
-    setState(() {
-      _isLoading = false;
-    });
+      if (user == null) {
+        throw FirebaseAuthException(
+          code: 'user-null',
+          message: 'User creation failed. Please try again.',
+        );
+      }
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const DashboardPage()),
-    );
+      await user.updateDisplayName(_nameController.text.trim());
+      await _saveVolunteerToFirestore(user: user);
+
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Volunteer account created successfully')),
+      );
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardPage()),
+      );
+    } on FirebaseAuthException catch (e) {
+      String message = 'Sign up failed. Please try again.';
+
+      if (e.code == 'email-already-in-use') {
+        message = 'This email is already in use.';
+      } else if (e.code == 'invalid-email') {
+        message = 'Please enter a valid email.';
+      } else if (e.code == 'weak-password') {
+        message = 'Password is too weak.';
+      } else if (e.code == 'operation-not-allowed') {
+        message = 'Email/password sign up is not enabled in Firebase.';
+      } else if (e.message != null && e.message!.trim().isNotEmpty) {
+        message = e.message!;
+      }
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(message)));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error: $e')));
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -424,7 +495,7 @@ class _SignUpVolunteerPageState extends State<SignUpVolunteerPage> {
                           ),
                           padding: const EdgeInsets.symmetric(horizontal: 12),
                           child: DropdownButtonFormField<String>(
-                            initialValue: _selectedGender,
+                            value: _selectedGender,
                             decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Gender',
