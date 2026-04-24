@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_sms/flutter_sms.dart';
-
 import 'Dashboard_page.dart';
-import 'emergency_settings_store.dart';
+import 'EmergencySettings_store.dart';
 
 class EmergencyPage extends StatefulWidget {
   const EmergencyPage({super.key});

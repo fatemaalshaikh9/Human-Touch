@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
-import 'volunteer_help_chat_page.dart';
+import 'VolunteerHelpChat.dart';
 
 class VolunteerHelpCallPage extends StatefulWidget {
   final String volunteerId;

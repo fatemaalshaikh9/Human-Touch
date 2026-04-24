@@ -1,29 +1,22 @@
-import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
-import 'dart:ui';
-import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 import 'services/communication_ai_service.dart';
 
-class CommunicationWidget extends StatefulWidget {
-  const CommunicationWidget({super.key});
+class CommunicationPage extends StatefulWidget {
+  const CommunicationPage({super.key});
 
-  static String routeName = 'Communication';
-  static String routePath = '/Communication';
+  static const String routeName = '/communication';
 
   @override
-  State<CommunicationWidget> createState() => _CommunicationWidgetState();
+  State<CommunicationPage> createState() => _CommunicationPageState();
 }
 
-class _CommunicationWidgetState extends State<CommunicationWidget> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
+class _CommunicationPageState extends State<CommunicationPage> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _needController = TextEditingController();
 
   final FlutterTts _flutterTts = FlutterTts();
@@ -275,16 +268,15 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
           ),
           title: Text(
             'Large Text',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
+            style: GoogleFonts.outfit(
               fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
           content: SingleChildScrollView(
             child: Text(
               _generatedMessage,
-              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                font: GoogleFonts.plusJakartaSans(),
+              style: GoogleFonts.plusJakartaSans(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
@@ -316,6 +308,36 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
     ScaffoldMessenger.of(
       context,
     ).showSnackBar(SnackBar(content: Text(message)));
+  }
+
+  TextStyle _titleStyle() {
+    return GoogleFonts.outfit(
+      fontSize: 18,
+      fontWeight: FontWeight.w700,
+      color: Colors.black87,
+    );
+  }
+
+  TextStyle _bodyStyle({
+    double size = 14,
+    FontWeight weight = FontWeight.w500,
+    Color color = Colors.black87,
+  }) {
+    return GoogleFonts.plusJakartaSans(
+      fontSize: size,
+      fontWeight: weight,
+      color: color,
+    );
+  }
+
+  ButtonStyle _buttonStyle(Color color) {
+    return ElevatedButton.styleFrom(
+      backgroundColor: color,
+      foregroundColor: Colors.white,
+      elevation: 0,
+      minimumSize: const Size(double.infinity, 50),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    );
   }
 
   Widget _buildHeader() {
@@ -350,8 +372,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
             children: [
               Text(
                 'Communication',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  font: GoogleFonts.outfit(),
+                style: GoogleFonts.outfit(
                   color: Colors.white,
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -360,8 +381,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
               const SizedBox(height: 6),
               Text(
                 'Express your needs clearly with AI',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  font: GoogleFonts.plusJakartaSans(),
+                style: GoogleFonts.plusJakartaSans(
                   color: Colors.white,
                   fontSize: 13,
                 ),
@@ -397,13 +417,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Communication Category',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          Text('Communication Category', style: _titleStyle()),
           const SizedBox(height: 12),
           Wrap(
             spacing: 10,
@@ -411,6 +425,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
             children: _categories.map((category) {
               final isSelected = _selectedCategory == category;
               return InkWell(
+                borderRadius: BorderRadius.circular(14),
                 onTap: () {
                   setState(() {
                     _selectedCategory = category;
@@ -429,10 +444,9 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
                   ),
                   child: Text(
                     category,
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.plusJakartaSans(),
+                    style: _bodyStyle(
+                      weight: FontWeight.w600,
                       color: isSelected ? Colors.white : Colors.black87,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -449,22 +463,16 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Tell AI what you need',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          Text('Tell AI what you need', style: _titleStyle()),
           const SizedBox(height: 12),
           TextFormField(
             controller: _needController,
             maxLines: 4,
             decoration: InputDecoration(
               hintText: 'Example: I need help finding an accessible bathroom',
-              hintStyle: FlutterFlowTheme.of(context).bodyMedium.override(
-                font: GoogleFonts.plusJakartaSans(),
+              hintStyle: _bodyStyle(
                 color: const Color(0xFF8A8A8A),
+                weight: FontWeight.w500,
               ),
               filled: true,
               fillColor: const Color(0xFFF4F4F4),
@@ -474,74 +482,51 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
                 borderSide: BorderSide.none,
               ),
             ),
-            style: FlutterFlowTheme.of(
-              context,
-            ).bodyMedium.override(font: GoogleFonts.plusJakartaSans()),
+            style: _bodyStyle(),
           ),
           const SizedBox(height: 12),
           Row(
             children: [
               Expanded(
-                child: FFButtonWidget(
+                child: ElevatedButton.icon(
                   onPressed: _isListening ? _stopListening : _startListening,
-                  text: _isListening ? 'Stop Listening' : 'Listen',
-                  icon: Icon(
-                    _isListening ? Icons.mic_off : Icons.mic,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 50,
-                    color: const Color(0xFF87CEEB),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.outfit(),
-                      color: Colors.white,
+                  style: _buttonStyle(const Color(0xFF87CEEB)),
+                  icon: Icon(_isListening ? Icons.mic_off : Icons.mic),
+                  label: Text(
+                    _isListening ? 'Stop Listening' : 'Listen',
+                    style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
-                    elevation: 0,
-                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: FFButtonWidget(
+                child: ElevatedButton.icon(
                   onPressed: _clearAll,
-                  text: 'Clear',
-                  icon: const Icon(
-                    Icons.delete_outline,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 50,
-                    color: const Color(0xFF9E9E9E),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.outfit(),
-                      color: Colors.white,
+                  style: _buttonStyle(const Color(0xFF9E9E9E)),
+                  icon: const Icon(Icons.delete_outline),
+                  label: Text(
+                    'Clear',
+                    style: GoogleFonts.outfit(
                       fontWeight: FontWeight.w600,
+                      color: Colors.white,
                     ),
-                    elevation: 0,
-                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 14),
-          Text(
-            'Suggested Prompts',
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-              font: GoogleFonts.plusJakartaSans(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          Text('Suggested Prompts', style: _bodyStyle(weight: FontWeight.w700)),
           const SizedBox(height: 10),
           Wrap(
             spacing: 8,
             runSpacing: 8,
             children: (_categoryPrompts[_selectedCategory] ?? []).map((prompt) {
               return InkWell(
+                borderRadius: BorderRadius.circular(12),
                 onTap: () => _fillPrompt(prompt),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -554,10 +539,10 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
                   ),
                   child: Text(
                     prompt,
-                    style: FlutterFlowTheme.of(context).bodySmall.override(
-                      font: GoogleFonts.plusJakartaSans(),
+                    style: _bodyStyle(
+                      size: 12,
                       color: const Color(0xFF2F2F2F),
-                      fontWeight: FontWeight.w600,
+                      weight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -565,23 +550,19 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
             }).toList(),
           ),
           const SizedBox(height: 14),
-          FFButtonWidget(
-            onPressed: _isGeneratingMessage ? null : _generateMessage,
-            text: _isGeneratingMessage
-                ? 'Generating...'
-                : 'Generate AI Message',
-            icon: const Icon(Icons.auto_awesome, color: Colors.white, size: 18),
-            options: FFButtonOptions(
-              width: double.infinity,
-              height: 52,
-              color: const Color(0xFF87CEEB),
-              textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                font: GoogleFonts.outfit(),
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              onPressed: _isGeneratingMessage ? null : _generateMessage,
+              style: _buttonStyle(const Color(0xFF87CEEB)),
+              icon: const Icon(Icons.auto_awesome),
+              label: Text(
+                _isGeneratingMessage ? 'Generating...' : 'Generate AI Message',
+                style: GoogleFonts.outfit(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
               ),
-              elevation: 0,
-              borderRadius: BorderRadius.circular(16),
             ),
           ),
         ],
@@ -594,13 +575,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'AI Message Result',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          Text('AI Message Result', style: _titleStyle()),
           const SizedBox(height: 12),
           Container(
             width: double.infinity,
@@ -614,10 +589,9 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
               _generatedMessage.isEmpty
                   ? 'The generated message will appear here.'
                   : _generatedMessage,
-              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                font: GoogleFonts.plusJakartaSans(),
-                fontSize: _generatedMessage.isEmpty ? 15 : 16,
-                fontWeight: _generatedMessage.isEmpty
+              style: _bodyStyle(
+                size: _generatedMessage.isEmpty ? 15 : 16,
+                weight: _generatedMessage.isEmpty
                     ? FontWeight.w400
                     : FontWeight.w600,
                 color: _generatedMessage.isEmpty
@@ -630,45 +604,25 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
           Row(
             children: [
               Expanded(
-                child: FFButtonWidget(
+                child: ElevatedButton.icon(
                   onPressed: _copyMessage,
-                  text: 'Copy',
-                  icon: const Icon(
-                    Icons.copy_rounded,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 48,
-                    color: const Color(0xFF5AB2FF),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.outfit(),
-                      color: Colors.white,
-                    ),
-                    elevation: 0,
-                    borderRadius: BorderRadius.circular(14),
+                  style: _buttonStyle(const Color(0xFF5AB2FF)),
+                  icon: const Icon(Icons.copy_rounded),
+                  label: Text(
+                    'Copy',
+                    style: GoogleFonts.outfit(color: Colors.white),
                   ),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: FFButtonWidget(
+                child: ElevatedButton.icon(
                   onPressed: _speakMessage,
-                  text: _isSpeaking ? 'Speaking...' : 'Speak',
-                  icon: const Icon(
-                    Icons.volume_up,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 48,
-                    color: const Color(0xFF4CAF50),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.outfit(),
-                      color: Colors.white,
-                    ),
-                    elevation: 0,
-                    borderRadius: BorderRadius.circular(14),
+                  style: _buttonStyle(const Color(0xFF4CAF50)),
+                  icon: const Icon(Icons.volume_up),
+                  label: Text(
+                    _isSpeaking ? 'Speaking...' : 'Speak',
+                    style: GoogleFonts.outfit(color: Colors.white),
                   ),
                 ),
               ),
@@ -678,45 +632,25 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
           Row(
             children: [
               Expanded(
-                child: FFButtonWidget(
+                child: ElevatedButton.icon(
                   onPressed: _showLargeTextDialog,
-                  text: 'Large Text',
-                  icon: const Icon(
-                    Icons.zoom_out_map,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 48,
-                    color: const Color(0xFFFFA726),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.outfit(),
-                      color: Colors.white,
-                    ),
-                    elevation: 0,
-                    borderRadius: BorderRadius.circular(14),
+                  style: _buttonStyle(const Color(0xFFFFA726)),
+                  icon: const Icon(Icons.zoom_out_map),
+                  label: Text(
+                    'Large Text',
+                    style: GoogleFonts.outfit(color: Colors.white),
                   ),
                 ),
               ),
               const SizedBox(width: 10),
               Expanded(
-                child: FFButtonWidget(
+                child: ElevatedButton.icon(
                   onPressed: _stopSpeaking,
-                  text: 'Stop',
-                  icon: const Icon(
-                    Icons.stop_circle_outlined,
-                    color: Colors.white,
-                    size: 18,
-                  ),
-                  options: FFButtonOptions(
-                    height: 48,
-                    color: const Color(0xFFE53935),
-                    textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                      font: GoogleFonts.outfit(),
-                      color: Colors.white,
-                    ),
-                    elevation: 0,
-                    borderRadius: BorderRadius.circular(14),
+                  style: _buttonStyle(const Color(0xFFE53935)),
+                  icon: const Icon(Icons.stop_circle_outlined),
+                  label: Text(
+                    'Stop',
+                    style: GoogleFonts.outfit(color: Colors.white),
                   ),
                 ),
               ),
@@ -732,13 +666,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'How do you feel today?',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          Text('How do you feel today?', style: _titleStyle()),
           const SizedBox(height: 12),
           Wrap(
             spacing: 10,
@@ -746,6 +674,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
             children: _moods.map((mood) {
               final isSelected = _selectedMood == mood;
               return InkWell(
+                borderRadius: BorderRadius.circular(14),
                 onTap: () => _loadMoodActivities(mood),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
@@ -760,10 +689,9 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
                   ),
                   child: Text(
                     mood,
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      font: GoogleFonts.plusJakartaSans(),
+                    style: _bodyStyle(
+                      weight: FontWeight.w600,
                       color: isSelected ? Colors.white : Colors.black87,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -780,20 +708,11 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Games & Activities for your mood',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
-              fontWeight: FontWeight.w700,
-            ),
-          ),
+          Text('Games & Activities for your mood', style: _titleStyle()),
           const SizedBox(height: 6),
           Text(
             'Selected mood: $_selectedMood',
-            style: FlutterFlowTheme.of(context).bodySmall.override(
-              font: GoogleFonts.plusJakartaSans(),
-              color: const Color(0xFF6F6F6F),
-            ),
+            style: _bodyStyle(size: 12, color: const Color(0xFF6F6F6F)),
           ),
           const SizedBox(height: 14),
           if (_isGeneratingActivities)
@@ -804,12 +723,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
               ),
             )
           else if (_suggestedActivities.isEmpty)
-            Text(
-              'No activities found yet.',
-              style: FlutterFlowTheme.of(
-                context,
-              ).bodyMedium.override(font: GoogleFonts.plusJakartaSans()),
-            )
+            Text('No activities found yet.', style: _bodyStyle())
           else
             Column(
               children: _suggestedActivities.map((activity) {
@@ -836,12 +750,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
                       Expanded(
                         child: Text(
                           activity,
-                          style: FlutterFlowTheme.of(context).bodyMedium
-                              .override(
-                                font: GoogleFonts.plusJakartaSans(),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
+                          style: _bodyStyle(size: 14, weight: FontWeight.w600),
                         ),
                       ),
                     ],
@@ -868,8 +777,8 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
         children: [
           Text(
             'Emergency Quick Phrases',
-            style: FlutterFlowTheme.of(context).titleMedium.override(
-              font: GoogleFonts.outfit(),
+            style: GoogleFonts.outfit(
+              fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.red,
             ),
@@ -877,6 +786,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
           const SizedBox(height: 12),
           ...emergencyPhrases.map(
             (phrase) => InkWell(
+              borderRadius: BorderRadius.circular(16),
               onTap: () async {
                 setState(() {
                   _selectedCategory = 'Emergency';
@@ -903,10 +813,7 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
                     Expanded(
                       child: Text(
                         phrase,
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          font: GoogleFonts.plusJakartaSans(),
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: _bodyStyle(weight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -927,18 +834,18 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           InkWell(
-            onTap: () async {
-              context.pushNamed(DashboardWidget.routeName);
+            onTap: () {
+              Navigator.pushNamed(context, '/dashboard');
             },
-            child: Icon(
+            child: const Icon(
               Icons.home_outlined,
-              color: FlutterFlowTheme.of(context).primaryText,
+              color: Colors.black87,
               size: 42,
             ),
           ),
           InkWell(
-            onTap: () async {
-              context.pushNamed(CommunicationWidget.routeName);
+            onTap: () {
+              Navigator.pushNamed(context, '/communication');
             },
             child: const Icon(
               Icons.chat_bubble_outline_rounded,
@@ -946,10 +853,15 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
               size: 42,
             ),
           ),
-          Icon(
-            Icons.settings_outlined,
-            color: FlutterFlowTheme.of(context).primaryText,
-            size: 40,
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, '/settings');
+            },
+            child: const Icon(
+              Icons.settings_outlined,
+              color: Colors.black87,
+              size: 40,
+            ),
           ),
         ],
       ),
@@ -975,7 +887,6 @@ class _CommunicationWidgetState extends State<CommunicationWidget> {
         key: scaffoldKey,
         backgroundColor: const Color(0xFFF4F4F4),
         body: Column(
-          mainAxisSize: MainAxisSize.max,
           children: [
             _buildHeader(),
             Expanded(
