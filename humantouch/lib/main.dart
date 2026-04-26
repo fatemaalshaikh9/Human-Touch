@@ -1,35 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:humantouch/pages/AddHealthTip_page.dart';
+import 'package:humantouch/pages/Communication_page.dart';
+import 'package:humantouch/pages/Dashboard_page.dart';
+import 'package:humantouch/pages/EmergencySettings_store.dart';
+import 'package:humantouch/pages/Emergency_page.dart';
+import 'package:humantouch/pages/ForgetPassword_page.dart';
+import 'package:humantouch/pages/Health_page.dart';
+import 'package:humantouch/pages/Login_page.dart';
+import 'package:humantouch/pages/Map_page.dart';
+import 'package:humantouch/pages/Profile2_page.dart';
+import 'package:humantouch/pages/Profile_page.dart';
+import 'package:humantouch/pages/RemindersCompanion_page.dart';
+import 'package:humantouch/pages/Reminders_page.dart';
+import 'package:humantouch/pages/Settings_page.dart';
+import 'package:humantouch/pages/SignUpCompanion_page.dart';
+import 'package:humantouch/pages/SignUpPatient_page.dart';
+import 'package:humantouch/pages/SignUpVolunteer_page.dart';
+import 'package:humantouch/pages/SignUp_page.dart';
+import 'package:humantouch/pages/Splash_page.dart';
+import 'package:humantouch/pages/VolunteerHelp_page.dart';
+import 'package:humantouch/pages/Welcome_page.dart';
+import 'package:humantouch/pages/profile_store.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:firebase_core/firebase_core.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
-// pages
-import 'Splash_page.dart';
-import 'Welcome_page.dart';
-import 'Login_page.dart';
-import 'SignUp_page.dart';
-import 'SignUpVolunteer_page.dart';
-import 'SignUpCompanion_page.dart';
-import 'SignUpPatient_page.dart';
-import 'ForgetPassword_page.dart';
-import 'Dashboard_page.dart';
-import 'Reminders_page.dart';
-import 'CompanionReminders_page.dart';
-import 'Health_page.dart';
-import 'Communication_page.dart';
-import 'Emergency_page.dart';
-import 'Map_page.dart';
-import 'VolunteerHelp_page.dart';
-import 'Profile_page.dart';
-import 'Profile2_page.dart';
-import 'Settings_page.dart';
-import 'AddHealthTip_page.dart';
-
-// stores
-import 'emergency_settings_store.dart';
-import 'profile_store.dart';
-import 'reminder_store.dart';
 
 // notification
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -41,7 +36,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Firebase
-  await Firebase.initializeApp();
+  //await Firebase.initializeApp();
 
   // Localization
   await initializeDateFormatting('en', null);
@@ -137,7 +132,7 @@ class HumanTouchApp extends StatelessWidget {
               ),
             ),
           ),
-          cardTheme: CardTheme(
+          cardTheme: CardThemeData(
             color: Colors.white,
             elevation: 3,
             shadowColor: Colors.black12,
