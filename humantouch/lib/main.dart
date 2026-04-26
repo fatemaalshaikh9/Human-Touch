@@ -29,7 +29,7 @@ import 'AddHealthTip_page.dart';
 // stores
 import 'emergency_settings_store.dart';
 import 'profile_store.dart';
-// import 'reminder_store.dart';
+import 'reminder_store.dart';
 
 // notification
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
