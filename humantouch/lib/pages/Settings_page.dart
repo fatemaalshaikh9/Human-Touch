@@ -5,7 +5,7 @@ import 'Profile_page.dart';
 import 'Login_page.dart';
 import 'EmergencySettings_store.dart';
 import 'AppSettings_store.dart';
-import 'l10n/app_localizations.dart';
+// import 'l10n/app_localizations.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -325,7 +325,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final local = AppLocalizations.of(context)!;
+    // final local = AppLocalizations.of(context)!;
 
     return AnimatedBuilder(
       animation: Listenable.merge([settingsStore, appSettingsStore]),

@@ -29,14 +29,14 @@ class _DashboardPageState extends State<DashboardPage> {
   Future<void> _initZegoCallService() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null || _zegoInitialized || !mounted) return;
-    await ZegoCallService.instance.init(
-      context: context,
-      userID: user.uid,
-      userName:
-          (user.displayName != null && user.displayName!.trim().isNotEmpty)
-          ? user.displayName!
-          : (user.email ?? 'User'),
-    );
+    // await zego_call_service.instance.init(
+    //   context: context,
+    //   userID: user.uid,
+    //   userName:
+    //       (user.displayName != null && user.displayName!.trim().isNotEmpty)
+    //       ? user.displayName!
+    //       : (user.email ?? 'User'),
+    // );
     if (!mounted) return;
     setState(() {
       _zegoInitialized = true;
