@@ -291,20 +291,20 @@ class _DashboardPageState extends State<DashboardPage> {
                         _buildFeatureItem(
                           context: context,
                           label: 'Reminders',
-                          imagePath: 'assets/images/Reminder.png',
+                          imagePath: 'assets/Reminder.png',
                           page: const RemindersPage(),
                         ),
                         _buildFeatureItem(
                           context: context,
                           label: 'Health',
-                          imagePath: 'assets/images/Health.png',
+                          imagePath: 'assets/Health.png',
                           page: const HealthPage(),
                           imageHeight: 60,
                         ),
                         _buildFeatureItem(
                           context: context,
                           label: 'Communication',
-                          imagePath: 'assets/images/communication.png',
+                          imagePath: 'assets/communication.png',
                           page: const CommunicationPage(),
                           imageWidth: 100,
                           imageHeight: 100,
@@ -320,13 +320,13 @@ class _DashboardPageState extends State<DashboardPage> {
                         _buildFeatureItem(
                           context: context,
                           label: 'Emergency',
-                          imagePath: 'assets/images/Emergency.png',
+                          imagePath: 'assets/Emergency.png',
                           page: const EmergencyPage(),
                         ),
                         _buildFeatureItem(
                           context: context,
                           label: 'Map',
-                          imagePath: 'assets/images/map.png',
+                          imagePath: 'assets/map.png',
                           page: const MapPage(),
                         ),
                         _buildFeatureItem(

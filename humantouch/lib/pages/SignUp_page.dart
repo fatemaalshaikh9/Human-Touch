@@ -88,7 +88,7 @@ class SignUpPage extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: Image.asset(
-                      'assets/images/freepik__logo-design-for-human-touch-app-a-stylized-fingerp__64913_(1).png',
+                      "assets/logo.png",
                       width: 200,
                       height: 200,
                       fit: BoxFit.cover,
